@@ -1,0 +1,150 @@
+@import "tailwindcss";
+
+/* ------------------------------------------------------------------ *
+ * Theme tokens
+ *
+ * The whole UI is built on `white`-based translucency layered over a
+ * dark base. In Tailwind v4 every color utility resolves through
+ * `var(--color-*)` at runtime, so a theme switch is just a matter of
+ * re-pointing the neutral tokens. In light mode `white` becomes a dark
+ * slate (so `text-white`, `bg-white/5`, `border-white/10` all invert
+ * coherently) and the dark "surface" grays become light surfaces.
+ * Saturated accent tokens used as text are darkened for contrast.
+ * ------------------------------------------------------------------ */
+
+:root {
+  color-scheme: dark;
+  --app-bg: #030712;
+  --scrollbar-track: rgba(255, 255, 255, 0.03);
+  --scrollbar-thumb: rgba(255, 255, 255, 0.12);
+  --scrollbar-thumb-hover: rgba(255, 255, 255, 0.2);
+  --heatmap-empty: rgba(255, 255, 255, 0.06);
+  --heatmap-text: rgba(255, 255, 255, 0.4);
+}
+
+html.light {
+  color-scheme: light;
+
+  /* Neutral flip: `white` is the foreground / overlay color */
+  --color-white: #0f172a; /* slate-900 */
+  --color-gray-950: #eef2f7; /* page background */
+  --color-gray-900: #e2e8f0; /* inputs, selects, tooltips */
+  --color-gray-800: #cbd5e1;
+
+  /* Darker accents so colored text stays legible on light surfaces */
+  --color-blue-300: #1d4ed8;
+  --color-blue-400: #2563eb;
+  --color-purple-400: #7c3aed;
+  --color-pink-400: #db2777;
+  --color-red-300: #dc2626;
+  --color-red-400: #dc2626;
+  --color-green-400: #16a34a;
+  --color-green-300: #16a34a;
+
+  --app-bg: #eef2f7;
+  --scrollbar-track: rgba(15, 23, 42, 0.04);
+  --scrollbar-thumb: rgba(15, 23, 42, 0.18);
+  --scrollbar-thumb-hover: rgba(15, 23, 42, 0.3);
+  --heatmap-empty: rgba(15, 23, 42, 0.08);
+  --heatmap-text: rgba(15, 23, 42, 0.55);
+}
+
+html,
+body,
+#root {
+  height: 100%;
+}
+
+body {
+  margin: 0;
+  background-color: var(--app-bg);
+  font-family: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto,
+    Helvetica, Arial, sans-serif;
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+/* Smooth the surface/border transition when toggling themes */
+.glass-card,
+.sidebar,
+.mobile-nav,
+button,
+select,
+input {
+  transition: background-color 0.3s ease, border-color 0.3s ease,
+    color 0.3s ease;
+}
+
+/* Text on saturated accent buttons must stay white in both themes */
+.text-on-accent {
+  color: #ffffff;
+}
+
+/* In light mode give cards a real elevated white surface (a 5% dark tint
+ * would otherwise blend into the light page) for clear contrast. */
+html.light .glass-card {
+  background-color: rgba(255, 255, 255, 0.78);
+  border-color: rgba(15, 23, 42, 0.1);
+  box-shadow: 0 1px 3px rgba(15, 23, 42, 0.06);
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+::-webkit-scrollbar-track {
+  background: var(--scrollbar-track);
+}
+::-webkit-scrollbar-thumb {
+  background: var(--scrollbar-thumb);
+  border-radius: 9999px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: var(--scrollbar-thumb-hover);
+}
+
+/* Activity heatmap intensity scale (GitHub-style) */
+.cf-heatmap .react-calendar-heatmap text {
+  fill: var(--heatmap-text);
+  font-size: 7px;
+}
+.cf-heatmap .react-calendar-heatmap rect {
+  rx: 2;
+}
+.react-calendar-heatmap .cf-heat-0 {
+  fill: var(--heatmap-empty);
+}
+.react-calendar-heatmap .cf-heat-1 {
+  fill: #0e4429;
+}
+.react-calendar-heatmap .cf-heat-2 {
+  fill: #006d32;
+}
+.react-calendar-heatmap .cf-heat-3 {
+  fill: #26a641;
+}
+.react-calendar-heatmap .cf-heat-4 {
+  fill: #39d353;
+}
+
+.cf-legend {
+  display: inline-block;
+  width: 10px;
+  height: 10px;
+  border-radius: 2px;
+}
+.cf-legend.cf-heat-0 {
+  background: var(--heatmap-empty);
+}
+.cf-legend.cf-heat-1 {
+  background: #0e4429;
+}
+.cf-legend.cf-heat-2 {
+  background: #006d32;
+}
+.cf-legend.cf-heat-3 {
+  background: #26a641;
+}
+.cf-legend.cf-heat-4 {
+  background: #39d353;
+}

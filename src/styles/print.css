@@ -1,0 +1,49 @@
+@media print {
+  /* Hide interactive / navigational elements */
+  .sidebar,
+  .mobile-nav,
+  .top-progress-bar,
+  .download-pdf-btn,
+  .refresh-btn,
+  .retry-btn,
+  .warning-banner,
+  .zoom-controls {
+    display: none !important;
+  }
+
+  /* Single-column, full-width layout */
+  .dashboard-grid {
+    grid-template-columns: 1fr !important;
+    gap: 1rem !important;
+    padding: 0 !important;
+  }
+
+  /* White background, dark text */
+  html,
+  body,
+  .dashboard-root {
+    background: #ffffff !important;
+    color: #000000 !important;
+  }
+
+  /* Glass cards become plain white boxes */
+  .glass-card {
+    background: #ffffff !important;
+    border: 1px solid #e5e7eb !important;
+    backdrop-filter: none !important;
+    box-shadow: none !important;
+    color: #000000 !important;
+  }
+
+  /* Charts print at correct size */
+  canvas {
+    max-width: 100% !important;
+    height: auto !important;
+  }
+
+  /* Avoid breaking sections across pages */
+  .dashboard-section {
+    break-inside: avoid;
+    page-break-inside: avoid;
+  }
+}
