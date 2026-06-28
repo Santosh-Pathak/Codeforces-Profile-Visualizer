@@ -1,0 +1,16 @@
+# Development image — Vite dev server with hot-reload
+FROM node:22-alpine
+
+WORKDIR /app
+
+# Install dependencies
+COPY package.json package-lock.json ./
+RUN npm ci --ignore-scripts
+
+# Source is mounted via volume at runtime (see docker-compose.yml)
+COPY . .
+
+EXPOSE 5173
+
+# --host makes Vite listen on all interfaces inside the container
+CMD ["npm", "run", "dev", "--", "--host", "0.0.0.0"]
