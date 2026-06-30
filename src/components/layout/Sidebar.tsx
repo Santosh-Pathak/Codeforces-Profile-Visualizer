@@ -20,14 +20,14 @@ export default function Sidebar({ profile }: SidebarProps) {
 
   return (
     <aside
-      className={`sidebar relative sticky top-0 hidden h-screen shrink-0 overflow-visible lg:block ${
+      className={`sidebar fixed top-0 left-0 z-20 hidden h-screen max-h-screen overflow-visible lg:flex lg:flex-col ${
         collapsed
           ? 'w-[4.5rem] min-w-[4.5rem] max-w-[4.5rem]'
           : 'w-60 min-w-60 max-w-60'
       }`}
     >
-      <div className="sidebar-panel flex h-full flex-col overflow-hidden border-r border-white/10 bg-gray-950/80 backdrop-blur-md">
-        <div className="sidebar-scroll flex h-full flex-col overflow-x-hidden overflow-y-auto px-3 py-4">
+      <div className="sidebar-panel flex min-h-0 flex-1 flex-col overflow-hidden border-r border-white/10 bg-gray-950/80 backdrop-blur-md">
+        <div className="sidebar-scroll min-h-0 flex-1 overflow-x-hidden overflow-y-auto overscroll-y-contain px-3 py-4">
           {collapsed ? (
             profile ? (
               <Tooltip content={profile.handle} placement="right" className="mb-4 shrink-0">
@@ -64,7 +64,7 @@ export default function Sidebar({ profile }: SidebarProps) {
             )
           )}
 
-          <nav className="flex flex-col gap-1 pb-2">
+          <nav className="flex flex-col gap-1 pb-4">
             {NAV_SECTIONS.map((s) => {
               const isActive = active === s.id;
               const Icon = s.icon;

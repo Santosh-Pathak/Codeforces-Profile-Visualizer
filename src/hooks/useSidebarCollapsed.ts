@@ -1,6 +1,8 @@
-import { useCallback, useEffect, useState } from 'react';
+import { useCallback, useEffect, useLayoutEffect, useState } from 'react';
 
 const STORAGE_KEY = 'cf-sidebar-collapsed';
+const WIDTH_EXPANDED = '15rem';
+const WIDTH_COLLAPSED = '4.5rem';
 
 function readInitial(): boolean {
   try {
@@ -10,8 +12,19 @@ function readInitial(): boolean {
   }
 }
 
+function applySidebarWidth(collapsed: boolean) {
+  document.documentElement.style.setProperty(
+    '--sidebar-width',
+    collapsed ? WIDTH_COLLAPSED : WIDTH_EXPANDED,
+  );
+}
+
 export function useSidebarCollapsed() {
   const [collapsed, setCollapsed] = useState(readInitial);
+
+  useLayoutEffect(() => {
+    applySidebarWidth(collapsed);
+  }, [collapsed]);
 
   useEffect(() => {
     try {
