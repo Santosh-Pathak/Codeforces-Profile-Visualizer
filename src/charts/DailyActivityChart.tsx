@@ -17,6 +17,7 @@ function DailyActivityChart({ submissions }: DailyActivityChartProps) {
   const { years, selection, setSelection, filtered } = useYearFilter(
     submissions,
     getSubTs,
+    { requiresFullHistory: true },
   );
   const defaults = useChartDefaults();
   const counts = useMemo(() => computeActivityByDow(filtered), [filtered]);

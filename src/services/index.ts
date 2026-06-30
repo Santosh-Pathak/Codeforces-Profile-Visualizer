@@ -37,9 +37,11 @@ export function getUserRating(
 export function getUserStatus(
   handle: string,
   signal?: AbortSignal,
+  count = 10_000,
 ): Promise<NormalizedResponse<CFSubmission[]>> {
+  const safeCount = Math.min(Math.max(1, count), 10_000);
   return request<CFSubmission[]>(
-    `/user.status?handle=${encodeURIComponent(handle)}&count=10000`,
+    `/user.status?handle=${encodeURIComponent(handle)}&count=${safeCount}`,
     signal,
   );
 }

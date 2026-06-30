@@ -27,6 +27,7 @@ function ActivityHeatmap({ submissions }: ActivityHeatmapProps) {
   const { years, selection, setSelection, filtered } = useYearFilter(
     submissions,
     getSubTs,
+    { requiresFullHistory: true },
   );
 
   const year =

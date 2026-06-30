@@ -17,6 +17,7 @@ function WeakTopics({ submissions }: WeakTopicsProps) {
   const { years, selection, setSelection, filtered } = useYearFilter(
     submissions,
     getSubTs,
+    { requiresFullHistory: true },
   );
 
   const weak = useMemo(() => {

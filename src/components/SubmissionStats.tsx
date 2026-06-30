@@ -18,6 +18,7 @@ function SubmissionStats({ submissions }: SubmissionStatsProps) {
   const { years, selection, setSelection, filtered } = useYearFilter(
     submissions,
     getSubTs,
+    { requiresFullHistory: true },
   );
   const stats = useMemo(() => computeSubmissionStats(filtered), [filtered]);
 

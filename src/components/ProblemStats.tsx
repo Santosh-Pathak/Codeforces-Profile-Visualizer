@@ -21,6 +21,7 @@ function ProblemStats({ submissions, problems }: ProblemStatsProps) {
   const { years, selection, setSelection, filtered } = useYearFilter(
     submissions,
     getSubTs,
+    { requiresFullHistory: true },
   );
 
   const { totalSolved, uniqueSolved, difficulty } = useMemo(() => {
