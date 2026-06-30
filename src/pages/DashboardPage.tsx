@@ -1,5 +1,6 @@
 import { useCallback, useMemo, type ReactNode } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
+import { ArrowLeftIcon } from '@heroicons/react/24/outline';
 import { motion } from 'framer-motion';
 
 import { useCodeforcesData } from '../hooks/useCodeforcesData';
@@ -174,6 +175,10 @@ export default function DashboardPage() {
               </span>
             </h1>
             <div className="flex gap-2">
+              <Button variant="ghost" onClick={handleSearchAgain} className="back-btn">
+                <ArrowLeftIcon className="h-4 w-4" aria-hidden />
+                Back
+              </Button>
               <Button variant="ghost" onClick={handleRefetch} className="refresh-btn">
                 Refresh
               </Button>
