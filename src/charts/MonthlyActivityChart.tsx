@@ -22,6 +22,7 @@ function MonthlyActivityChart({ submissions }: MonthlyActivityChartProps) {
   const { years, selection, setSelection, filtered } = useYearFilter(
     submissions,
     getSubTs,
+    { requiresFullHistory: true },
   );
   const defaults = useChartDefaults();
   const counts = useMemo(() => computeActivityByMonth(filtered), [filtered]);

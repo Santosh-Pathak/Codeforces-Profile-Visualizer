@@ -25,6 +25,7 @@ function ProblemRatingDistribution({
   const { years, selection, setSelection, filtered } = useYearFilter(
     submissions,
     getSubTs,
+    { requiresFullHistory: true },
   );
   const defaults = useChartDefaults();
   const source = useMemo(

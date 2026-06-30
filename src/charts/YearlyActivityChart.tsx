@@ -1,9 +1,10 @@
-import { memo, useMemo } from 'react';
+import { memo, useEffect, useMemo } from 'react';
 import { Bar } from 'react-chartjs-2';
 import type { ChartData, ChartOptions } from 'chart.js';
 import { computeActivityByYear } from '../utils/statCalculators';
 import EmptyState from '../components/ui/EmptyState';
 import { useChartDefaults } from '../hooks/useChartDefaults';
+import { useCodeforcesDataContextOptional } from '../contexts/CodeforcesDataContext';
 import type { CFSubmission } from '../types';
 
 interface YearlyActivityChartProps {
@@ -12,6 +13,12 @@ interface YearlyActivityChartProps {
 
 function YearlyActivityChart({ submissions }: YearlyActivityChartProps) {
   const defaults = useChartDefaults();
+  const dataCtx = useCodeforcesDataContextOptional();
+
+  useEffect(() => {
+    void dataCtx?.ensureFullHistory();
+  }, [dataCtx]);
+
   const entries = useMemo(() => {
     const map = computeActivityByYear(submissions);
     return Array.from(map.entries()).sort((a, b) => a[0] - b[0]);

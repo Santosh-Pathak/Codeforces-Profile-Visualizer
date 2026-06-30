@@ -22,14 +22,20 @@ export interface CodeforcesData {
   contests: CFRatingChange[] | null;
   submissions: CFSubmission[] | null;
   problems: CFProblem[] | null;
+  submissionsComplete?: boolean;
+  problemsLoaded?: boolean;
 }
 
 export interface UseCodeforcesDataResult extends CodeforcesData {
   loading: boolean;
+  loadingMore: boolean;
+  submissionsComplete: boolean;
+  problemsLoaded: boolean;
   error: string | null;
   status: number | null;
   retryAfter: number | null;
   refetch: () => void;
+  ensureFullHistory: () => Promise<void>;
 }
 
 export interface CacheEntry {

@@ -53,6 +53,9 @@ export function getChartDefaults(theme: Theme): ChartOptions {
       y: { grid: { color: p.grid }, ticks: { color: p.tick } },
     },
     animation: { duration: 600, easing: 'easeInOutQuart' },
+    animations: {
+      resize: { duration: 0 },
+    },
   };
 }
 

@@ -1,5 +1,6 @@
 import { useCallback, useMemo, type ReactNode } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
+import { ArrowLeftIcon } from '@heroicons/react/24/outline';
 import { motion } from 'framer-motion';
 
 import { useCodeforcesData } from '../hooks/useCodeforcesData';
@@ -10,6 +11,7 @@ import PageWrapper from '../components/layout/PageWrapper';
 import Sidebar from '../components/layout/Sidebar';
 import MobileNav from '../components/layout/MobileNav';
 import SectionHeader from '../components/layout/SectionHeader';
+import { CodeforcesDataProvider } from '../contexts/CodeforcesDataContext';
 
 import GlassCard from '../components/ui/GlassCard';
 import Button from '../components/ui/Button';
@@ -69,17 +71,19 @@ function Section({ id, title, subtitle, children, className = '' }: SectionProps
 export default function DashboardPage() {
   const { handle = '' } = useParams();
   const navigate = useNavigate();
+  const data = useCodeforcesData(handle);
   const {
     profile,
     contests,
     submissions,
     problems,
     loading,
+    loadingMore,
     error,
     status,
     retryAfter,
     refetch,
-  } = useCodeforcesData(handle);
+  } = data;
 
   const computedStats = useMemo(
     () => computeComputedStats(profile, contests, submissions, problems),
@@ -129,7 +133,7 @@ export default function DashboardPage() {
   }
 
   // All failed
-  const allFailed = !profile && !contests && !submissions && !problems;
+  const allFailed = !profile && !contests && !submissions;
   if (allFailed) {
     return (
       <PageWrapper>
@@ -152,11 +156,17 @@ export default function DashboardPage() {
 
   return (
     <PageWrapper loading={loading}>
-      <MobileNav />
-      <div className="flex">
-        <Sidebar profile={profile} />
-        <main className="dashboard-grid flex-1 space-y-10 px-4 py-8 sm:px-6 lg:px-10">
-          {partialFailure && <WarningBanner message={error} />}
+      <CodeforcesDataProvider value={data}>
+        <MobileNav />
+        <div className="dashboard-shell">
+          <Sidebar profile={profile} />
+          <main className="dashboard-main dashboard-grid min-w-0 space-y-10 px-4 py-8 sm:px-6 lg:px-10">
+            {partialFailure && <WarningBanner message={error} />}
+            {loadingMore && (
+              <div className="rounded-lg border border-blue-500/25 bg-blue-500/10 px-4 py-2 text-sm text-blue-200">
+        
+              </div>
+            )}
 
           <div className="flex items-center justify-between pr-12 lg:pr-14">
             <h1 className="text-2xl font-bold">
@@ -165,6 +175,10 @@ export default function DashboardPage() {
               </span>
             </h1>
             <div className="flex gap-2">
+              <Button variant="ghost" onClick={handleSearchAgain} className="back-btn">
+                <ArrowLeftIcon className="h-4 w-4" aria-hidden />
+                Back
+              </Button>
               <Button variant="ghost" onClick={handleRefetch} className="refresh-btn">
                 Refresh
               </Button>
@@ -286,6 +300,7 @@ export default function DashboardPage() {
           </Section>
         </main>
       </div>
+      </CodeforcesDataProvider>
     </PageWrapper>
   );
 }

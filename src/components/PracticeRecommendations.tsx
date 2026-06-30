@@ -1,10 +1,11 @@
-import { memo, useMemo } from 'react';
+import { memo, useEffect, useMemo } from 'react';
 import { ArrowRightIcon } from '@heroicons/react/24/outline';
 import GlassCard from './ui/GlassCard';
 import Badge from './ui/Badge';
 import EmptyState from './ui/EmptyState';
 import { getRecommendations } from '../utils/recommendations';
 import { computeUniqueSolved, computeComputedStats } from '../utils/statCalculators';
+import { useCodeforcesDataContextOptional } from '../contexts/CodeforcesDataContext';
 import type { CFUserInfo, CFSubmission, CFProblem } from '../types';
 
 interface PracticeRecommendationsProps {
@@ -18,11 +19,21 @@ function PracticeRecommendations({
   submissions,
   problems,
 }: PracticeRecommendationsProps) {
+  const dataCtx = useCodeforcesDataContextOptional();
+
+  useEffect(() => {
+    void dataCtx?.ensureFullHistory();
+  }, [dataCtx]);
+
   const recommendations = useMemo(() => {
     const solved = computeUniqueSolved(submissions);
     const stats = computeComputedStats(profile, null, submissions, problems);
     return getRecommendations(problems, solved, profile?.rating, stats.weakTags, 20);
   }, [profile, submissions, problems]);
+
+  if (dataCtx?.loadingMore && !problems) {
+    return <EmptyState text="Loading problem recommendations…" />;
+  }
 
   if (recommendations.length === 0) {
     return <EmptyState text="No recommendations available right now." />;

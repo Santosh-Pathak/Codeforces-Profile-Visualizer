@@ -14,6 +14,7 @@
 
 :root {
   color-scheme: dark;
+  --sidebar-width: 15rem;
   --app-bg: #030712;
   --scrollbar-track: rgba(255, 255, 255, 0.03);
   --scrollbar-thumb: rgba(255, 255, 255, 0.12);
@@ -49,6 +50,10 @@ html.light {
   --heatmap-text: rgba(15, 23, 42, 0.55);
 }
 
+html {
+  scrollbar-gutter: stable;
+}
+
 html,
 body,
 #root {
@@ -65,13 +70,17 @@ body {
 
 /* Smooth the surface/border transition when toggling themes */
 .glass-card,
-.sidebar,
 .mobile-nav,
-button,
+button:not(.sidebar-toggle),
 select,
 input {
   transition: background-color 0.3s ease, border-color 0.3s ease,
     color 0.3s ease;
+}
+
+.sidebar,
+.sidebar-panel {
+  transition: none;
 }
 
 /* Text on saturated accent buttons must stay white in both themes */
@@ -101,6 +110,89 @@ html.light .glass-card {
 }
 ::-webkit-scrollbar-thumb:hover {
   background: var(--scrollbar-thumb-hover);
+}
+
+/* Sidebar scroll area */
+.sidebar-scroll {
+  scrollbar-width: thin;
+  scrollbar-color: var(--scrollbar-thumb) transparent;
+  -webkit-overflow-scrolling: touch;
+}
+
+.sidebar-panel {
+  height: 100%;
+  max-height: 100vh;
+}
+
+.sidebar-scroll::-webkit-scrollbar {
+  width: 6px;
+}
+
+.sidebar-scroll::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.sidebar-scroll::-webkit-scrollbar-thumb {
+  background: var(--scrollbar-thumb);
+  border-radius: 9999px;
+}
+
+.sidebar-scroll::-webkit-scrollbar-thumb:hover {
+  background: var(--scrollbar-thumb-hover);
+}
+
+/* Collapse handle — sits on the scrollbar edge, outside the clipped panel */
+.sidebar-toggle {
+  position: absolute;
+  right: 0;
+  top: 50%;
+  z-index: 50;
+  display: flex;
+  height: 2.75rem;
+  width: 1.375rem;
+  transform: translate(50%, -50%);
+  align-items: center;
+  justify-content: center;
+  border-radius: 9999px;
+  border: 2px solid #93c5fd;
+  background: #2563eb;
+  color: #ffffff;
+  cursor: pointer;
+  box-shadow: 0 4px 16px rgba(37, 99, 235, 0.5);
+  transition: background-color 0.15s ease, transform 0.15s ease,
+    box-shadow 0.15s ease;
+}
+
+.sidebar-toggle:hover {
+  background: #1d4ed8;
+  box-shadow: 0 6px 20px rgba(37, 99, 235, 0.6);
+  transform: translate(50%, -50%) scale(1.06);
+}
+
+.sidebar-toggle:focus-visible {
+  outline: 2px solid #60a5fa;
+  outline-offset: 2px;
+}
+
+html.light .sidebar-toggle {
+  background: #2563eb;
+  border-color: #1d4ed8;
+  color: #ffffff;
+  box-shadow: 0 4px 16px rgba(37, 99, 235, 0.35);
+}
+
+html.light .sidebar-toggle:hover {
+  background: #1d4ed8;
+}
+
+.dashboard-shell {
+  min-width: 0;
+}
+
+@media (min-width: 1024px) {
+  .dashboard-main {
+    margin-left: var(--sidebar-width);
+  }
 }
 
 /* Activity heatmap intensity scale (GitHub-style) */

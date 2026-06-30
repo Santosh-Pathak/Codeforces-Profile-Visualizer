@@ -9,7 +9,7 @@ interface PageWrapperProps {
 
 export default function PageWrapper({ children, loading = false }: PageWrapperProps) {
   return (
-    <div className="dashboard-root min-h-screen bg-gray-950 text-white">
+    <div className="dashboard-root min-h-screen overflow-x-hidden bg-gray-950 text-white">
       <TopProgressBar loading={loading} />
       <ThemeToggle className="fixed right-4 top-4 z-40" />
       {children}
